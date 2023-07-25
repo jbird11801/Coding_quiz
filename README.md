@@ -23,6 +23,8 @@ Used to make the read me file https://courses.bootcampspot.com/courses/3906/page
 
 the refrence folder contains the prompt for this project i obtained it from https://git.bootcampcontent.com/University-of-New-Hampshire/UNH-VIRT-FSF-PT-06-2023-U-LOLC
 
+used to remind myself on how to make a curve around my buttons https://www.w3schools.com/css/css3_borders.asp
+
 List your collaborators, if any, with links to their GitHub profiles.
 
 If you used any third-party assets that require attribution, list the creators with links to their primary web presence in this section.
