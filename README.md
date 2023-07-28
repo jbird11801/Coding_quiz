@@ -25,6 +25,12 @@ the refrence folder contains the prompt for this project i obtained it from http
 
 used to remind myself on how to make a curve around my buttons https://www.w3schools.com/css/css3_borders.asp
 
+Used to create a button https://www.w3schools.com/jsref/dom_obj_pushbutton.asp
+
+used to help me debug a issue i had with my elements not showing up https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById
+
+used to help hide elements https://www.w3schools.com/css/css_display_visibility.asp
+
 List your collaborators, if any, with links to their GitHub profiles.
 
 If you used any third-party assets that require attribution, list the creators with links to their primary web presence in this section.
