@@ -19,6 +19,8 @@ var hsList = document.getElementById("HighScoreList");
 
 var hsBut = document.getElementById("high-score-but");
 
+var ClearBut = document.getElementById("Clear");
+
 //global variables
 
 var questions = [
@@ -142,6 +144,8 @@ var score;
 var questionIndex;
 
 var timerInterval;
+
+var HSArrayLS;
 
 //what i need to make
 
@@ -411,6 +415,8 @@ SubEl.addEventListener ("click" , function(){
 
         }
 
+        localStorage.setItem("HSArrayLS" , JSON.stringify(highScoreString));
+
         HighScoreList();
 
      }
@@ -434,22 +440,40 @@ function HighScoreList(){
     displayNone(questionEl);
 
     displayNone(timerEl);
+
+    HSArrayLS = JSON.parse(localStorage.getItem("HSArrayLS"));
     
-    HSli1El.textContent = highScoreString[0];
+    HSli1El.textContent = HSArrayLS[0];
 
-    HSli2El.textContent = highScoreString[1];
+    HSli2El.textContent = HSArrayLS[1];
 
-    HSli3El.textContent = highScoreString[2];
+    HSli3El.textContent = HSArrayLS[2];
 
-    HSli4El.textContent = highScoreString[3];
+    HSli4El.textContent = HSArrayLS[3];
 
-    HSli5El.textContent = highScoreString[4];
+    HSli5El.textContent = HSArrayLS[4];
 
 }
 
 hsBut.addEventListener("click", function(){
 
     displayNone(Start);
+
+    HighScoreList();
+
+});
+
+ClearBut.addEventListener("click", function(){
+
+    for(var i = 0; i < highScoreString.length;i++){
+
+        highScoreScore[i] = 0;
+
+        highScoreString[i] = "";
+
+    }
+
+    localStorage.setItem("HSArrayLS" , JSON.stringify(highScoreString));
 
     HighScoreList();
 
