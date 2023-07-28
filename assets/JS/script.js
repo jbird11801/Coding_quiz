@@ -21,8 +21,6 @@ var hsBut = document.getElementById("high-score-but");
 
 //global variables
 
-// array of objects that are the questions
-
 var questions = [
 
     //used to store the question text can add more to text object to add more questions the bool is used to say if the question is true
@@ -121,79 +119,33 @@ format
 
 ];
 
-//array of object high scores
+highScoreScore = [0,0,0,0,0];
 
-var highScoreArray = [
+highScoreString = ["","","","",""];
 
-    {
-        name: "",
+var quizScoreString;
 
-        score: 0,
+var highScoreSetup = {
 
-        time: 0
+    name: "",
 
-    }
+    score: 0,
 
-    ,
+    time: 0
 
-    {
-        name: "",
-
-        score: 0,
-
-        time: 0
-
-    }
-
-    ,
-
-    {
-        name: "",
-
-        score: 0,
-
-        time: 0
-
-    }
-
-    ,
-
-    {
-        name: "",
-
-        score: 0,
-
-        time: 0
-
-    }
-
-    ,
-
-    {
-        name: "",
-
-        score: 0,
-
-        time: 0
-
-    }
-    
-
-];
-
+};
 
 var secondsLeft = (questions.length * 12);
 
 var score;
 
-var i;
+var questionIndex;
 
 var timerInterval;
 
+//what i need to make
 
 /*
-
-    what i need to make
 
   <h1></h1>
 
@@ -222,9 +174,6 @@ var timerInterval;
     </section>
 
   <h3></h3>
-
-
-  creates these elements
 
   */
 
@@ -290,7 +239,13 @@ secEl.appendChild(SubEl);
 
 hsList.appendChild(HSli1El);
 
+hsList.appendChild(HSli2El);
 
+hsList.appendChild(HSli3El);
+
+hsList.appendChild(HSli4El);
+
+hsList.appendChild(HSli5El);
 
 // styles the elements
 
@@ -328,7 +283,9 @@ StartButEl.addEventListener("click" , function(event){
 
     score = 0;
 
-    i = 0;
+    questionIndex = 0;
+
+    displayNone(secEl);
 
     quiz();
 
@@ -339,20 +296,63 @@ StartButEl.addEventListener("click" , function(event){
 });
 
 //performs the quiz
+function Timer() {
+    // Sets interval in variable
+    timerInterval = setInterval(function() {
+      secondsLeft--;
+      timerCounterEl.textContent = secondsLeft;
+  
+      if(secondsLeft === 0) {
+
+        clearInterval(timerInterval);
+
+        // Calls function to end quiz
+
+        highScoreSet(highScoreSet(score*(100/questions.length)));
+
+      }
+  
+    }, 1000);
+  }
 
 function quiz () {
 
-    h1El.textContent = questions[i].prompt;
+    h1El.textContent = questions[questionIndex].prompt;
 
-    but1El.textContent = questions[i].Answer1[0];
+    but1El.textContent = questions[questionIndex].Answer1[0];
 
-    but2El.textContent = questions[i].Answer2[0];
+    but2El.textContent = questions[questionIndex].Answer2[0];
 
-    but3El.textContent = questions[i].Answer3[0];
+    but3El.textContent = questions[questionIndex].Answer3[0];
 
-    but4El.textContent = questions[i].Answer4[0];
+    but4El.textContent = questions[questionIndex].Answer4[0];
 
 }
+
+questionEl.addEventListener("click", function(event){
+
+    var selectedAns = event.target;
+
+    if(questionIndex < questions.length){
+
+    scoreAns(selectedAns);
+
+    }
+
+    questionIndex++;
+        
+    if( questions.length <= questionIndex ){
+
+        highScoreSet(score*(100/questions.length));
+
+    }
+    else if (questions.length > questionIndex){
+
+        quiz();
+
+    }
+
+});
 
 function highScoreSet(quizscore){
 
@@ -365,8 +365,6 @@ function highScoreSet(quizscore){
     p1El.textContent = ("Your score is " + quizscore)
 
     p2El.textContent = "Please enter your initials"
-
-    score = quizscore;
 
     clearInterval(timerInterval);
 
@@ -383,67 +381,43 @@ SubEl.addEventListener ("click" , function(){
 
     else {
 
-        var HasBeenUsed = false;
+        highScoreSetup.name = inpEl.value;
 
-        for (i = 0; i < highScoreArray.length; i++){
+        highScoreSetup.score = (score*(100/questions.length));
 
-            if (highScoreArray[i].score < score && HasBeenUsed === false){
+        highScoreSetup.time = timerCounterEl.textContent;
 
-                HasBeenUsed = true;
+        quizScoreString = (highScoreSetup.name + " scored " + highScoreSetup.score + " with " + highScoreSetup.time + " seconds left");
 
-                highScoreArray[i].name = input;
+        console.log(quizScoreString);
 
-                highScoreArray[i].score = score;
+        for(var i = 0; i < highScoreString.length; i++){
+            var temp;
+            if(highScoreSetup.score > highScoreScore[i]){
 
-                highScoreArray[i].time = secondsLeft;
-               
-            }
-            else if(0 === score && HasBeenUsed === false && highScoreArray[i].score === 0){
-                
-                HasBeenUsed = true;
+                temp = highScoreString[i];
 
-                highScoreArray[i].name = input;
+                highScoreString[i] = quizScoreString;
 
-                highScoreArray[i].score = score;
+                quizScoreString = temp;
 
-                highScoreArray[i].time = secondsLeft;
+                temp = highScoreScore[i];
+
+                highScoreScore[i] = highScoreSetup.score;
+
+                highScoreSetup.score = temp;
 
             }
 
         }
 
-        secondsLeft = (questions.length * 12);
-
-        // help localStorage.setItem("highScoreArrayls", highScoreArray.JSON(string));
-
         HighScoreList();
-
-        console.log(localStorage.getItem("highScoreArrayls[1].score"));
 
      }
 
 });
 
-function Timer() {
-    // Sets interval in variable
-    timerInterval = setInterval(function() {
-      secondsLeft--;
-      timerCounterEl.textContent = secondsLeft;
-  
-      if(secondsLeft === 0) {
-
-        clearInterval(timerInterval);
-
-        // Calls function to end quiz
-
-        highScoreSet();
-
-      }
-  
-    }, 1000);
-  }
-
-  backToStart.addEventListener("click", function(){
+backToStart.addEventListener("click", function(){
 
     displayNone(highScoreEl);
 
@@ -451,59 +425,77 @@ function Timer() {
 
     displayShown(hsBut);
 
-  });
+});
 
-  function HighScoreList(){
+function HighScoreList(){
 
     displayShown(highScoreEl);
-
-    displayNone(secEl);
 
     displayNone(questionEl);
 
     displayNone(timerEl);
+    
+    HSli1El.textContent = highScoreString[0];
 
-    if(!(highScoreArray[0].score === 0)){
+    HSli2El.textContent = highScoreString[1];
 
-    HSli1El.textContent = (highScoreArray[0].name + " scored " + highScoreArray[0].score + " with " + highScoreArray[0].time + " seconds left");
+    HSli3El.textContent = highScoreString[2];
 
-    }
+    HSli4El.textContent = highScoreString[3];
 
-    if(!(highScoreArray[1].score === 0)){
+    HSli5El.textContent = highScoreString[4];
 
-    HSli2El.textContent = (highScoreArray[1].name + " scored " + highScoreArray[1].score + " with " + highScoreArray[1].time + " seconds left");
+}
 
-    }
-
-    if(!(highScoreArray[2].score === 0)){
-
-    HSli3El.textContent = (highScoreArray[2].name + " scored " + highScoreArray[2].score + " with " + highScoreArray[2].time + " seconds left");
-
-    }
-
-    if(!(highScoreArray[3].score === 0)){
-
-    HSli4El.textContent = (highScoreArray[3].name + " scored " + highScoreArray[3].score + " with " + highScoreArray[3].time + " seconds left");
-
-    }
-
-    if(!(highScoreArray[4].score === 0)){
-
-    HSli5El.textContent = (highScoreArray[4].name + " scored " + highScoreArray[4].score + " with " + highScoreArray[4].time + " seconds left");
-
-    }
-
-  }
-
-  hsBut.addEventListener("click", function(){
+hsBut.addEventListener("click", function(){
 
     displayNone(Start);
 
     HighScoreList();
 
-  });
+});
 
-function displayShown(element){
+function scoreAns (selected){
+
+    var text = selected.textContent
+
+    var correct = false;
+
+        if (text === questions[questionIndex].Answer1[0]){
+
+            correct = questions[questionIndex].Answer1[1];
+
+        }
+        else if (text === questions[questionIndex].Answer2[0]){
+
+            correct =  questions[questionIndex].Answer2[1];
+
+        }
+        else if (text === questions[questionIndex].Answer3[0]){
+
+            correct =  questions[questionIndex].Answer3[1];
+
+        }
+        else if (text === questions[questionIndex].Answer4[0]){
+
+            correct =  questions[questionIndex].Answer4[1];
+
+        }
+        else{
+
+        }
+
+        if(correct === true){
+
+            score++;
+    
+        }
+
+}
+
+// helper functions
+
+  function displayShown(element){
 
     element.setAttribute("style", "display:flex;justify-content:center");
 
@@ -514,62 +506,3 @@ function displayNone(element){
     element.setAttribute("style", "display:none");
     
 }
-
-  questionEl.addEventListener("click", function(event){
-
-    var selectedAns = event.target;
-
-    console.log(selectedAns.textContent)
-
-    scoreAns(selectedAns);
-    console.log(i);
-    i++;
-        
-    if( questions.length <= i ){
-
-   console.log(score*(100/questions.length))
-
-    }
-    else if (questions.length > i){
-
-        quiz();
-
-    }
-
-  });
-
-  function scoreAns (selected){
-
-    var text = selected.textContent
-
-    var correct = false;
-
-        if (text === questions[i].Answer1[0]){
-
-            correct = questions[i].Answer1[1];
-
-        }
-        else if (text === questions[i].Answer2[0]){
-
-            correct =  questions[i].Answer2[1];
-
-        }
-        else if (text === questions[i].Answer3[0]){
-
-            correct =  questions[i].Answer3[1];
-
-        }
-        else if (text === questions[i].Answer4[0]){
-
-            correct =  questions[i].Answer3[1];
-
-        }
-
-        if(correct === true){
-
-            score++;
-    
-        }
-
-  }
-
