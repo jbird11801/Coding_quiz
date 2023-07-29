@@ -125,7 +125,7 @@ highScoreScore = [0,0,0,0,0];
 
 highScoreString = ["","","","",""];
 
-var quizScoreString;
+var quizScoreStringsetup;
 
 var highScoreSetup = {
 
@@ -146,6 +146,10 @@ var questionIndex;
 var timerInterval;
 
 var HSArrayLS;
+
+var HSArrayScoreLS = [0,0,0,0,0];
+
+
 
 //what i need to make
 
@@ -254,6 +258,16 @@ hsList.appendChild(HSli5El);
 // styles the elements
 
 displayNone(questionEl);
+
+HSli1El.setAttribute("style" , "border:5px; background-color: rgba(255, 166, 0, 0.5)");
+
+HSli2El.setAttribute("style" , "border: solid 5px rgba(255, 166, 0, 0.5); background-color: rgba(255, 166, 0, 0.5)");
+
+HSli3El.setAttribute("style" , "border:5px; background-color: rgba(255, 166, 0, 0.5)");
+
+HSli4El.setAttribute("style" , "border: solid 5px rgba(255, 166, 0, 0.5); background-color: rgba(255, 166, 0, 0.5)");
+
+HSli5El.setAttribute("style" , "border:5px background-color: rgba(255, 166, 0, 0.5)");
 
 but1El.setAttribute("style" , "margin:5px; margin-top: 20px");
 
@@ -391,37 +405,61 @@ SubEl.addEventListener ("click" , function(){
 
         highScoreSetup.time = timerCounterEl.textContent;
 
-        quizScoreString = (highScoreSetup.name + " scored " + highScoreSetup.score + " with " + highScoreSetup.time + " seconds left");
+        quizScoreStringsetup = (highScoreSetup.name + " scored " + highScoreSetup.score + " with " + highScoreSetup.time + " seconds left");
 
-        console.log(quizScoreString);
+        HSArrayLS = JSON.parse(localStorage.getItem("HSArrayLS"));
 
-        for(var i = 0; i < highScoreString.length; i++){
-            var temp;
-            if(highScoreSetup.score > highScoreScore[i]){
+        HSArrayScoreLS = JSON.parse(localStorage.getItem("HSArrayScoreLS"));
 
-                temp = highScoreString[i];
+        if (HSArrayLS[1] !== ""){
 
-                highScoreString[i] = quizScoreString;
-
-                quizScoreString = temp;
-
-                temp = highScoreScore[i];
-
-                highScoreScore[i] = highScoreSetup.score;
-
-                highScoreSetup.score = temp;
-
-            }
+            HsOrganiser(HSArrayLS , HSArrayScoreLS);
 
         }
+        
+        else
 
-        localStorage.setItem("HSArrayLS" , JSON.stringify(highScoreString));
+        {
+
+            HsOrganiser(highScoreString , highScoreScore);
+
+        }
 
         HighScoreList();
 
      }
 
 });
+
+function HsOrganiser(String , Score){
+
+    for(var i = 0; i < String.length; i++){
+
+        var temp;
+
+        if(highScoreSetup.score > Score[i]){
+
+            temp = String[i];
+
+            String[i] = quizScoreStringsetup;
+
+            quizScoreStringsetup = temp;
+
+            temp = Score[i];
+
+            Score[i] = highScoreSetup.score;
+
+            highScoreSetup.score = temp;
+
+        }
+
+    }
+
+    localStorage.setItem("HSArrayLS" , JSON.stringify(String));
+
+    localStorage.setItem("HSArrayScoreLS" , JSON.stringify(Score));
+
+}
 
 backToStart.addEventListener("click", function(){
 
@@ -434,6 +472,8 @@ backToStart.addEventListener("click", function(){
 });
 
 function HighScoreList(){
+
+    hsBut.setAttribute("style", "visibility: hidden")
 
     displayShown(highScoreEl);
 
