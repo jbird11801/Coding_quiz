@@ -285,7 +285,7 @@ displayNone(highScoreEl);
 
 displayNone(timerEl);
 
-// listens to to if the start button is clicked 
+// listens to to if the start button is clicked and then starts the quiz and timer and hides appropriate items and makes sure the right variables are reset
 
 StartButEl.addEventListener("click" , function(event){
 
@@ -313,11 +313,16 @@ StartButEl.addEventListener("click" , function(event){
 
 });
 
-//performs the quiz
+//The timer function will end the quiz if time hits 0
+
 function Timer() {
+
     // Sets interval in variable
+
     timerInterval = setInterval(function() {
+
       secondsLeft--;
+
       timerCounterEl.textContent = secondsLeft;
   
       if(secondsLeft === 0) {
@@ -331,7 +336,10 @@ function Timer() {
       }
   
     }, 1000);
+
   }
+
+  //changes the the quiz text
 
 function quiz () {
 
@@ -346,6 +354,8 @@ function quiz () {
     but4El.textContent = questions[questionIndex].Answer4[0];
 
 }
+
+// detects what button in the quiz is hit
 
 questionEl.addEventListener("click", function(event){
 
@@ -372,6 +382,8 @@ questionEl.addEventListener("click", function(event){
 
 });
 
+//ends the quiz and promps the user to ener a name while hideing the quiz and stoping the timer
+
 function highScoreSet(quizscore){
 
     displayNone(ulEl);
@@ -387,6 +399,8 @@ function highScoreSet(quizscore){
     clearInterval(timerInterval);
 
 }
+
+// the submit button submit the score and name on the quiz and loads the high score screen 
 
 SubEl.addEventListener ("click" , function(){
     input = inpEl.value.trim();
@@ -410,8 +424,8 @@ SubEl.addEventListener ("click" , function(){
         HSArrayLS = JSON.parse(localStorage.getItem("HSArrayLS"));
 
         HSArrayScoreLS = JSON.parse(localStorage.getItem("HSArrayScoreLS"));
-
-        if (HSArrayLS[1] !== ""){
+        console.log(HSArrayLS)
+        if (HSArrayLS !== null && HSArrayLS !== ""){
 
             HsOrganiser(HSArrayLS , HSArrayScoreLS);
 
@@ -431,7 +445,11 @@ SubEl.addEventListener ("click" , function(){
 
 });
 
+// a helper function to organise the quiz scores
+
 function HsOrganiser(String , Score){
+
+    console.log(String)
 
     for(var i = 0; i < String.length; i++){
 
@@ -461,6 +479,8 @@ function HsOrganiser(String , Score){
 
 }
 
+// goes back to the start of the quiz
+
 backToStart.addEventListener("click", function(){
 
     displayNone(highScoreEl);
@@ -470,6 +490,8 @@ backToStart.addEventListener("click", function(){
     displayShown(hsBut);
 
 });
+
+//loads the high scores of past quiz takers
 
 function HighScoreList(){
 
@@ -495,6 +517,8 @@ function HighScoreList(){
 
 }
 
+//loads the high score buttons
+
 hsBut.addEventListener("click", function(){
 
     displayNone(Start);
@@ -502,6 +526,8 @@ hsBut.addEventListener("click", function(){
     HighScoreList();
 
 });
+
+// clears the high scores
 
 ClearBut.addEventListener("click", function(){
 
@@ -515,9 +541,13 @@ ClearBut.addEventListener("click", function(){
 
     localStorage.setItem("HSArrayLS" , JSON.stringify(highScoreString));
 
+    localStorage.setItem("HSArrayScoreLS" , JSON.stringify(highScoreScore))
+
     HighScoreList();
 
 });
+
+// scores the submited anser from the user
 
 function scoreAns (selected){
 
@@ -557,7 +587,7 @@ function scoreAns (selected){
 
 }
 
-// helper functions
+// helper functions to show or hide elements
 
   function displayShown(element){
 
