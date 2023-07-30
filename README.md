@@ -1,19 +1,25 @@
 # Coding_quiz
 
+link to live site : https://jbird11801.github.io/Coding_quiz/
+
 ## Description
 
-Provide a short description explaining the what, why, and how of your project. Use the following questions as a guide:
-
-- What was your motivation?
-- Why did you build this project? (Note: the answer is not "Because it was a homework assignment.")
-- What problem does it solve?
-- What did you learn?
+This is a quiz that is dynamic in the fact that if you follow the format you can make any quiz you want. I was really challenged by two aspects in this project.One was event bubbling that cause a issue with the multiple buttons after the inital start button clicked, and the second one was local storage and where I needed to upload it and load it. I overall am really happy with this project.
 
 ## Usage
+![Picture of the Start Button](<Start Button.PNG>)
+![Picture of a quiz question](Quiz.PNG)
 
-Provide instructions and examples for use. Include screenshots as needed.
+click the start button to start a multiple choce quiz.
 
-To add a screenshot, create an `assets/images` folder in your repository and upload your screenshot to it. Then, using the relative file path, add it to your README using the following syntax:
+![Image on how to set your high score](SetHS.PNG)
+
+set your highscore after the quiz.
+
+![Image of the high score list](HSList.PNG)
+
+follow prompts to view high scores, and clear the or return to the start.
+
 
 ![alt text](assets/images/screenshot.png)
 
@@ -31,11 +37,9 @@ used to help me debug a issue i had with my elements not showing up https://deve
 
 used to help hide elements https://www.w3schools.com/css/css_display_visibility.asp
 
-List your collaborators, if any, with links to their GitHub profiles.
+How i used a loacal storage arrayhttps://stackoverflow.com/questions/3357553/how-do-i-store-an-array-in-localstorage
 
-If you used any third-party assets that require attribution, list the creators with links to their primary web presence in this section.
-
-If you followed tutorials, include links to those here as well.
+My tearcher help me with event bubbling 
 
 ## License
 
