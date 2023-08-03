@@ -137,7 +137,7 @@ var highScoreSetup = {
 
 };
 
-var secondsLeft = (questions.length * 12);
+var secondsLeft;
 
 var score;
 
@@ -307,9 +307,9 @@ StartButEl.addEventListener("click" , function(event){
 
     quiz();
 
-    Timer();
+    secondsLeft = (questions.length * 12);
 
-    h3El.textContent = "";
+    Timer();
 
 });
 
@@ -321,11 +321,11 @@ function Timer() {
 
     timerInterval = setInterval(function() {
 
-      secondsLeft--;
-
       timerCounterEl.textContent = secondsLeft;
+
+      secondsLeft--;
   
-      if(secondsLeft === 0) {
+      if(secondsLeft <= 0) {
 
         clearInterval(timerInterval);
 
@@ -363,7 +363,18 @@ questionEl.addEventListener("click", function(event){
 
     if(questionIndex < questions.length){
 
-    scoreAns(selectedAns);
+        var Wasright = scoreAns(selectedAns);
+
+    if(Wasright === true){
+
+            score++;
+    
+        }
+        else{
+
+            secondsLeft-=5
+
+        }
 
     }
 
@@ -394,7 +405,7 @@ function highScoreSet(quizscore){
 
     p1El.textContent = ("Your score is " + quizscore)
 
-    p2El.textContent = "Please enter your initials"
+    p2El.value = "Please enter your initials"
 
     clearInterval(timerInterval);
 
@@ -405,19 +416,13 @@ function highScoreSet(quizscore){
 SubEl.addEventListener ("click" , function(){
     input = inpEl.value.trim();
 
-    if (input === "" ){
-
-        p2El.textContent = "Please enter a valid set of initials ( not blank )";
-
-    }
-
-    else {
+    if (input !== "" ){
 
         highScoreSetup.name = inpEl.value;
 
         highScoreSetup.score = (score*(100/questions.length));
 
-        highScoreSetup.time = timerCounterEl.textContent;
+        highScoreSetup.time = secondsLeft;
 
         quizScoreStringsetup = (highScoreSetup.name + " scored " + highScoreSetup.score + " with " + highScoreSetup.time + " seconds left");
 
@@ -440,6 +445,12 @@ SubEl.addEventListener ("click" , function(){
         }
 
         HighScoreList();
+
+    }
+
+    else {
+
+        p2El.textContent = "Please enter a valid set of initials ( not blank )";
 
      }
 
@@ -581,8 +592,16 @@ function scoreAns (selected){
 
         if(correct === true){
 
-            score++;
+            return true;
     
+        }
+
+        else
+
+        {
+
+            return false;
+
         }
 
 }
